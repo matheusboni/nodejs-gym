@@ -50,7 +50,23 @@ router.post('/', authService, async (req, res) => {
 
 router.put('/:serieId', authService, async (req, res) => {
     try {
-        res.status(200).send({ user : req.userId });
+        const { daysOfWeek, physicalExercises } = req.body;
+
+        const serie = await Serie.findByIdAndUpdate(req.params.serieId, { daysOfWeek }, { new : true});
+
+        serie.physicalExercises = [];
+        await Serie.remove({ serie : serie._id});
+
+       await Promise.all(physicalExercises.map(async exercise => {
+            const serieExercise = new Exercise({ ...exercise, serie : serie._id });
+
+            await serieExercise.save();
+            serie.physicalExercises.push(serieExercise);
+        }));
+
+        await serie.save();
+
+        res.status(201).send({ serie });
     }
     catch(err) {
         return res.status(400).send({ error : 'Error updating serie' });
