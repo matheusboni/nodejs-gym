@@ -12,6 +12,18 @@ const ExerciseSchema = new mongoose.Schema({
         required : true,
     },
 
+    
+    weight : {
+        type: Number,
+        required : true,
+    },
+
+    serie : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Serie',
+        required : true,
+    },
+
     createdAt : {
         type : Date,
         default : Date.now,

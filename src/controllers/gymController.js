@@ -1,14 +1,14 @@
 const express = require('express');
 const authService = require('../middlewares/authService');
 const Serie = require('../models/serie');
-const exercises = require('../models/exercise');
+const Exercise = require('../models/exercise');
 
 const router = express.Router();
 // router.use(authService); use authorization in all routes
 
 router.get('/', authService, async (req, res) => {
     try {
-        const series = await Serie.find({ user : req.userId}).populate('user');
+        const series = await Serie.find({ user : req.userId}).populate(['user', 'physicalExercises']);
         res.status(200).send({ series });
     }
     catch(err) {
@@ -18,7 +18,7 @@ router.get('/', authService, async (req, res) => {
 
 router.get('/:serieId', authService, async (req, res) => {
     try {
-        const serie = await Serie.findById(req.params.serieId).populate('user');
+        const serie = await Serie.findById(req.params.serieId).populate(['user', 'physicalExercises']);
         res.status(200).send({ serie });
     }
     catch(err) {
@@ -28,7 +28,18 @@ router.get('/:serieId', authService, async (req, res) => {
 
 router.post('/', authService, async (req, res) => {
     try {
-        const serie = await Serie.create({ ...req.body, user : req.userId });
+        const { daysOfWeek, physicalExercises } = req.body;
+
+        const serie = await Serie.create({ daysOfWeek, user : req.userId });
+
+       await Promise.all(physicalExercises.map(async exercise => {
+            const serieExercise = new Exercise({ ...exercise, serie : serie._id });
+
+            await serieExercise.save();
+            serie.physicalExercises.push(serieExercise);
+        }));
+
+        await serie.save();
 
         res.status(201).send({ serie });
     }
