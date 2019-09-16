@@ -5,7 +5,7 @@ const tokenService = require('../middlewares/tokenService');
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
+router.post('', async (req, res) => {
 
     const { username } = req.body;
 
@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
 
 });
 
-router.post('/authenticate', async (req, res) => {
+router.post('/auth', async (req, res) => {
 
     const { username, password } = req.body;
 
@@ -46,4 +46,4 @@ router.post('/authenticate', async (req, res) => {
     res.send({ user, token : tokenService.genetareToken({ id : user.id }) });
 });
 
-module.exports = (app) => app.use('/auth', router);
+module.exports = app => app.use('/users', router);

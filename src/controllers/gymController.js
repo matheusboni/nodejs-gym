@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('', authService, (req, res) => {
 
-    res.status(200).send({ ok : true});
+    res.status(200).send({ ok : true,  user : req.userId });
 });
 
 module.exports = app => app.use('/gyms', router);
