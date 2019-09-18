@@ -4,26 +4,26 @@ const Enum = require('enum');
 // const days = new Enum({'MON': "Monday", 'TUE': "Tuesday", 'WED': "Wednesday", 'THU': "Thursday", 'FRI': "Friday", 'SAT': "Saturday", 'SUN': "Sunday"}); **search how use
 
 const SerieSchema = new mongoose.Schema({
-    daysOfWeek : [{
-        type : String,
-        required : true,
+    daysOfWeek: [{
+        type: String,
+        required: true,
     }],
 
-    user : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'User',
-        required : true,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
 
-    physicalExercises : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Exercise',
-        required : true,
+    physicalExercises: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exercise',
+        required: true,
     }],
 
-    createdAt : {
-        type : Date,
-        default : Date.now,
+    createdAt: {
+        type: Date,
+        default: Date.now,
     },
 });
 

@@ -1,32 +1,32 @@
 const mongoose = require('../database/index-db');
 
 const ExerciseSchema = new mongoose.Schema({
-    name : {
-        type : String,
-        required : true,
+    name: {
+        type: String,
+        required: true,
 
     },
 
-    repetitions : {
+    repetitions: {
         type: Number,
-        required : true,
+        required: true,
     },
 
-    
-    weight : {
+
+    weight: {
         type: Number,
-        required : true,
+        required: true,
     },
 
-    serie : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Serie',
-        required : true,
+    serie: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Serie',
+        required: true,
     },
 
-    createdAt : {
-        type : Date,
-        default : Date.now,
+    createdAt: {
+        type: Date,
+        default: Date.now,
     },
 });
 
